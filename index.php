@@ -23,8 +23,8 @@ $paquetes = $conexion-> query(query: "SELECT * FROM m_viajes WHERE paquete.estad
 <body>
 
   <?php
-    foreach($paquetes as $paquete){
-      echo $paquete['nombre'];
+    foreach($paquete as $paquetes){
+      echo $paquetes['nombre'];
     }
   ?>
 
