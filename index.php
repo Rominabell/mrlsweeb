@@ -4,6 +4,7 @@ require_once 'componentes/conexion.php';
 
 $paquetes = $conexion->query("SELECT * FROM paquete WHERE paquete.estado = 'activo';");
 
+
 ?>
 
 
@@ -36,10 +37,30 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE paquete.estado = 'acti
               <img class="card-img-top" src="<?=$paquete['url_imagen']?>" alt="">
               <p><?= $paquete['descripcion'] ?></p>
             </div>
-            <div class="card-footer"></div>
+            <div class="card-footer"></div> 
           </div>
         </div>
       </div>
+
+    <main class="flex_shrink-0">
+      <section id="ofertas" class="mt-4">
+        <div class="container">
+          <div class="row row-cols-2 row-cols-md-3 g-4">
+              if ($paquete->num-rows> 0) {
+                  <span class="badge bg-danger">
+                    <i class="bi bi-people-fill me-1"></i><?= $cupo_disponible?>
+                    <span class=""d-none d-md-inline>lugares disponibles</span>
+                    
+                  </span>
+            }
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <shrink-0">
+    <!-- agregar boton aca -->
+     
 
 
 
