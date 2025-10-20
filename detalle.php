@@ -1,9 +1,8 @@
 <?php
 require_once 'componentes/conexion.php';
-require_once 'componentes/encabezado.php';
-require_once 'componentes/pie.php';
 
-echo encabezado("AVOLAR - Detalle del paquete");
+
+
 
 // Recupero el ID del paquete desde la URL
 $id_paquete = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -72,4 +71,4 @@ if ($id_paquete > 0) {
   </div>
 </div>
 
-<?php echo pie(); ?>
+<?php
