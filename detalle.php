@@ -1,49 +1,75 @@
 <?php
+require_once 'componentes/conexion.php';
 require_once 'componentes/encabezado.php';
 require_once 'componentes/pie.php';
 
 echo encabezado("AVOLAR - Detalle del paquete");
 
+// Recupero el ID del paquete desde la URL
+$id_paquete = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-//recupero el ID del paquete desde la URL
-$id_paquete = isset($_GET['id'])? intval(value:$_GET['id']): 0;
-if ($id_paquete != null && $id_paquete > 0){
+if ($id_paquete > 0) {
 
-//consulto el paquete por ID
-$paquete=$conexion->query("
-    SELECT *
-    FROM paquetes
-    WHERE paquetes.id_paquete = $id_paquete AND (paquetes.estado = 'disponible' OR paquetes.estado = 'proximamente'
-")->fetch_assoc();
+    // Consulto el paquete por ID
+    $paquete = $conexion->query("
+        SELECT *
+        FROM paquete
+        WHERE id_paquete = $id_paquete 
+        AND (estado = 'disponible' OR estado = 'proximamente')
+    ")->fetch_assoc();
 
-if (!$paquetes){
-    echo "<div class='alert alert-danger'> Paquete no encontrado o no disponible.</div>";
-    exit;
-} else {
-//si encuentra el paquete, obtengo los servicios asociados y calculo todo junto para mostrarlo luego
-    $servicios = $conexion->query("
-    SELECT *
-    FROM servicios JOIN paquete_servicio ON servicios.id_servicio = paquete_servicio.id_servicio
-    WHERE paquete_servicio.id_paquete = $id_paquete; ")
+    if (!$paquete) {
+        echo "<div class='alert alert-danger'>Paquete no encontrado o no disponible.</div>";
+        exit;
+    }
 
-//dias restantes  de reserva 
-    $fechalimite = date_create(datetime: $paquetes['f_limite']);
+    // Calcular datos adicionales
+    $fechaLimite = new DateTime($paquete['f_limite']);
+    $fechaInicio = new DateTime($paquete['f_inicio']);
+    $fechaFin = new DateTime($paquete['f_fin']);
     $hoy = new DateTime();
-    $dias_restantes = $hoy->diff(targetObject: $fechaLimite)->format('%a')
 
-//tiempo neto de estadia del paquete
+    $dias_restantes = $hoy->diff($fechaLimite)->format('%a');
+    $dias_estadia = $fechaInicio->diff($fechaFin)->format('%a');
+    $cupo_disponible = $paquete['cupo_total'] - $paquete['cupo_reservado'];
 
-    $f_inicio = date_create(datetime: $paquete['f_inicio']);
-    $f_fin = date_create(datetime:$paquete['f_fin']);
-    $dias_restantes = $hoy->diff(targetObject: $fechaLimite)->format('%a')
-
-//cupo disponible
-    $cupo_disponible = $paquetes ['cupo_total'] - $paquetes['cupo_reservado'];
-
+    // Consultar los servicios asociados
+    $servicios = $conexion->query("
+        SELECT s.nombre 
+        FROM servicios s
+        JOIN paquete_servicio ps ON s.id_servicio = ps.id_servicio
+        WHERE ps.id_paquete = $id_paquete
+    ");
 } else {
-    echo "<div class='alert alert-danger'>ID de paquete invalido.</div>";
+    echo "<div class='alert alert-danger'>ID de paquete inválido.</div>";
     exit;
-}
-
 }
 ?>
+
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="row g-0">
+      <div class="col-md-6">
+        <img src="<?= htmlspecialchars($paquete['url_imagen']) ?>" class="img-fluid rounded-start" alt="Imagen del paquete">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h3 class="card-title"><?= htmlspecialchars($paquete['nombre']) ?></h3>
+          <p class="card-text"><?= htmlspecialchars($paquete['descripcion']) ?></p>
+          <p><strong>Días de estadía:</strong> <?= $dias_estadia ?></p>
+          <p><strong>Días restantes para reservar:</strong> <?= $dias_restantes ?></p>
+          <p><strong>Cupo disponible:</strong> <?= $cupo_disponible ?></p>
+          <p><strong>Servicios incluidos:</strong></p>
+          <ul>
+            <?php while ($servicio = $servicios->fetch_assoc()) { ?>
+              <li><?= htmlspecialchars($servicio['nombre']) ?></li>
+            <?php } ?>
+          </ul>
+          <a href="index.php" class="btn btn-secondary mt-3">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php echo pie(); ?>
