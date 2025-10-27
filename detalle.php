@@ -17,10 +17,7 @@ if ($id_paquete > 0) {
         AND (estado = 'disponible' OR estado = 'proximamente')
     ")->fetch_assoc();
 
-    if (!$paquete) {
-        echo "<div class='alert alert-danger'>Paquete no encontrado o no disponible.</div>";
-        exit;
-    }
+    
 
     // Calcular datos adicionales
     $fechaLimite = new DateTime($paquete['f_limite']);
@@ -54,7 +51,7 @@ if ($id_paquete > 0) {
       <div class="col-md-6">
         <div class="card-body">
           <h3 class="card-title"><?= htmlspecialchars($paquete['nombre']) ?></h3>
-          <p class="card-text"><?= htmlspecialchars($paquete['descripcion']) ?></p>
+          <p class="card-text"><?= htmlspecialchars($paquete['descripcion_larga']) ?></p>
           <p><strong>Días de estadía:</strong> <?= $dias_estadia ?></p>
           <p><strong>Días restantes para reservar:</strong> <?= $dias_restantes ?></p>
           <p><strong>Cupo disponible:</strong> <?= $cupo_disponible ?></p>
