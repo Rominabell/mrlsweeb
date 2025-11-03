@@ -2,7 +2,7 @@
 require_once 'componentes/conexion.php';
 
 // Consulta de los paquetes activos
-$paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'activo'");
+$paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'");
 ?>
 
 <!DOCTYPE html>

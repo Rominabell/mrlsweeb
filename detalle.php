@@ -1,15 +1,12 @@
 <?php
 require_once 'componentes/conexion.php';
 
-
-
-
-// Recupero el ID del paquete desde la URL
+// Recuperar el ID del paquete desde la URL
 $id_paquete = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id_paquete > 0) {
 
-    // Consulto el paquete por ID
+    // Consultar el paquete
     $paquete = $conexion->query("
         SELECT *
         FROM paquete
@@ -17,7 +14,10 @@ if ($id_paquete > 0) {
         AND (estado = 'disponible' OR estado = 'proximamente')
     ")->fetch_assoc();
 
-    
+    if (!$paquete) {
+        echo "<div class='alert alert-danger text-center mt-5'>Paquete no encontrado o no disponible.</div>";
+        exit;
+    }
 
     // Calcular datos adicionales
     $fechaLimite = new DateTime($paquete['f_limite']);
@@ -29,43 +29,130 @@ if ($id_paquete > 0) {
     $dias_estadia = $fechaInicio->diff($fechaFin)->format('%a');
     $cupo_disponible = $paquete['cupo_total'] - $paquete['cupo_reservado'];
 
-    // Consultar los servicios asociados
+    // Consultar los servicios asociados (tabla servicio)
     $servicios = $conexion->query("
-        SELECT s.nombre 
-        FROM servicios s
-        JOIN paquete_servicio ps ON s.id_servicio = ps.id_servicio
-        WHERE ps.id_paquete = $id_paquete
+        SELECT nombre, tipo, descripcion
+        FROM servicio
+        WHERE id_paquete = $id_paquete
     ");
 } else {
-    echo "<div class='alert alert-danger'>ID de paquete inválido.</div>";
+    echo "<div class='alert alert-danger mt-5 text-center'>ID de paquete inválido.</div>";
     exit;
 }
 ?>
 
+<!-- ======== ESTILOS ======== -->
+<style>
+.card-horizontal {
+  max-width: 900px;
+  margin: 30px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Imagen ocupa 3/4 del card */
+.card-horizontal img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Contenido (1/4 del card aprox) */
+.card-info {
+  padding: 25px;
+  background-color: #fff;
+}
+
+.badge-custom {
+  font-size: 0.85rem;
+  margin-right: 8px;
+  border-radius: 6px;
+}
+
+.btn-reservar {
+  background-color: #155825;
+  color: white;
+  font-weight: bold;
+  width: fit-content; /* o un ancho fijo, ej: 200px */
+  border-radius: 20px;
+  text-decoration: none;
+  display: block; /* Para que el margin funcione correctamente */
+  margin: 0 auto; /* Esto lo centra horizontalmente */
+  padding: 10px 20px; /* Espaciado interno */
+  text-align: center; /* Centra el texto dentro del botón */
+}
+
+.btn-reservar:hover {
+  background-color: #218838;
+}
+
+.btn-volver {
+  background-color: #6c757d;
+  color: white;
+  border-radius: 20px;
+  text-decoration: none;
+  display: block;
+  width: fit-content; /* ajusta el ancho al contenido */
+  margin: 0 auto; /* centra el botón */
+  padding: 10px 20px; /* da espacio interno */
+  font-weight: bold;
+  text-align: center;
+}
+
+.precio {
+  color: #28a745;
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-horizontal img {
+    height: 250px;
+  }
+  .card-info {
+    padding: 15px;
+  }
+}
+</style>
+
+<!-- ======== CONTENIDO ======== -->
 <div class="container mt-5">
-  <div class="card shadow">
-    <div class="row g-0">
-      <div class="col-md-6">
-        <img src="<?= htmlspecialchars($paquete['url_imagen']) ?>" class="img-fluid rounded-start" alt="Imagen del paquete">
+  <div class="card card-horizontal">
+    <!-- Imagen del paquete -->
+    <img src="<?= htmlspecialchars($paquete['url_imagen']) ?>" alt="Imagen del paquete">
+
+    <!-- Información del paquete -->
+    <div class="card-info">
+      <h3 class="card-title text-center"><?= htmlspecialchars($paquete['nombre']) ?></h3>
+
+      <div class="text-center mb-3">
+        <span class="badge bg-primary badge-custom">Familia</span>
+        <span class="badge bg-info text-dark badge-custom"><?= $dias_estadia ?> días</span>
+        <span class="badge bg-danger badge-custom">Lugares: <?= $cupo_disponible ?></span>
       </div>
-      <div class="col-md-6">
-        <div class="card-body">
-          <h3 class="card-title"><?= htmlspecialchars($paquete['nombre']) ?></h3>
-          <p class="card-text"><?= htmlspecialchars($paquete['descripcion_larga']) ?></p>
-          <p><strong>Días de estadía:</strong> <?= $dias_estadia ?></p>
-          <p><strong>Días restantes para reservar:</strong> <?= $dias_restantes ?></p>
-          <p><strong>Cupo disponible:</strong> <?= $cupo_disponible ?></p>
-          <p><strong>Servicios incluidos:</strong></p>
-          <ul>
-            <?php while ($servicio = $servicios->fetch_assoc()) { ?>
-              <li><?= htmlspecialchars($servicio['nombre']) ?></li>
-            <?php } ?>
-          </ul>
-          <a href="index.php" class="btn btn-secondary mt-3">Volver al inicio</a>
-        </div>
+
+      <p class="text-muted text-center"><?= htmlspecialchars($paquete['descripcion_larga']) ?></p>
+
+      <h5 class="mt-4">Servicios incluidos:</h5>
+      <ul>
+        <?php while ($servicio = $servicios->fetch_assoc()) { ?>
+          <li>
+            <strong><?= htmlspecialchars($servicio['nombre']) ?></strong>  
+            (<?= htmlspecialchars($servicio['tipo']) ?>):  
+            <?= htmlspecialchars($servicio['descripcion']) ?>
+          </li>
+        <?php } ?>
+      </ul>
+
+      <p class="precio mt-3">USD <?= number_format($paquete['precio'], 2) ?></p>
+
+      <div class="mt-4">
+        <a href="reservar.php?id=<?= $id_paquete ?>" class="btn btn-reservar mb-2">¡RESERVAR AHORA!</a>
+        <a href="index.php" class="btn btn-volver">Volver</a>
       </div>
     </div>
   </div>
 </div>
-
-<?php
