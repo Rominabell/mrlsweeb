@@ -19,7 +19,6 @@ if ($id_paquete > 0) {
         exit;
     }
 
-    // Calcular datos adicionales
     $fechaLimite = new DateTime($paquete['f_limite']);
     $fechaInicio = new DateTime($paquete['f_inicio']);
     $fechaFin = new DateTime($paquete['f_fin']);
@@ -29,11 +28,11 @@ if ($id_paquete > 0) {
     $dias_estadia = $fechaInicio->diff($fechaFin)->format('%a');
     $cupo_disponible = $paquete['cupo_total'] - $paquete['cupo_reservado'];
 
-    // Consultar los servicios asociados (tabla servicio)
+  
     $servicios = $conexion->query("
-        SELECT nombre, tipo, descripcion
-        FROM servicio
-        WHERE id_paquete = $id_paquete
+       SELECT *
+       FROM servicio JOIN paquete_servicio ON servicio.id_servicio = paquete_servicio.id_paquete
+       Where paquete_servicio.id_paquete = $id_paquete;
     ");
 } else {
     echo "<div class='alert alert-danger mt-5 text-center'>ID de paquete inválido.</div>";
@@ -51,17 +50,17 @@ if ($id_paquete > 0) {
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
-/* Imagen ocupa 3/4 del card */
+
 .card-horizontal img {
   width: 100%;
   height: 400px;
   object-fit: cover;
 }
 
-/* Contenido (1/4 del card aprox) */
+
 .card-info {
   padding: 25px;
-  background-color: #fff;
+  background-color: #E5D2B8;
 }
 
 .badge-custom {

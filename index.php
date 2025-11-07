@@ -17,11 +17,45 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
       height: 200px; /* Ajusta esta altura al valor que prefieras */
       object-fit: cover; /* Asegura que la imagen cubra el área */
     }
+
+    .my-navbar {
+    background-color: #463214ff;
+    
+    }
+
+    .navbar-brand {
+      color: #E8D1A7;
+    }
+
+    .offcanvas {
+      color: #725C3A;
+    }
+
+    .card-body {
+      background-color: #E8D1A7;
+    }
+
+    .text-center {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 50px;
+      color: #725C3A;
+    }
+
+    .card_footer {
+      background-color: #725C3A ;
+    
+    }
+    
+
+
+
+
+  
   </style>
 </head>
 <body class="bg-light">
 
-  <nav class="navbar navbar-light bg-white py-3 shadow-sm">
+  <nav class="navbar my-navbar py-3 shadow-sm">
     <div class="container-fluid">
       <button 
         class="navbar-toggler border-0" 
@@ -29,11 +63,12 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
         data-bs-toggle="offcanvas" 
         data-bs-target="#offcanvasNavbar" 
         aria-controls="offcanvasNavbar"
+        
       >
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <a class="navbar-brand ms-auto" href="index.php" >
+      <a class="navbar-brand ms-auto"  href="index.php" >
         MRLSWEEB
       </a>
     </div>
@@ -71,12 +106,12 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
         <div class="col">
           <div class="card shadow-sm h-100">
             <img src="<?= htmlspecialchars($paquete['url_imagen']) ?>" class="card-img-top card-img-top-fixed" alt="Imagen del paquete">
-            <div class="card-body">
+            <div class="card-body" >
               <h5 class="card-title"><?= htmlspecialchars($paquete['nombre']) ?></h5>
               <p class="card-text"><?= htmlspecialchars($paquete['descripcion']) ?></p>
             </div>
             <div class="card-footer text-center">
-              <a href="detalle.php?id=<?= $paquete['id_paquete'] ?>" class="btn btn-primary w-100">
+              <a href="detalle.php?id=<?= $paquete['id_paquete'] ?>" class="btn btn-success w-100">
                 Ver detalle
               </a>
             </div>
