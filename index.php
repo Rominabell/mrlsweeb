@@ -33,8 +33,8 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <a class="navbar-brand ms-auto" href="index.php">
-        AVOLAR
+      <a class="navbar-brand ms-auto" href="index.php" >
+        MRLSWEEB
       </a>
     </div>
   </nav>
