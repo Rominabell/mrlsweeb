@@ -80,6 +80,8 @@ if ($id_paquete > 0) {
   margin: 0 auto; /* Esto lo centra horizontalmente */
   padding: 10px 20px; /* Espaciado interno */
   text-align: center; /* Centra el texto dentro del botón */
+  margin-bottom: 15px;
+  display: block;
 }
 
 .btn-reservar:hover {
@@ -97,6 +99,8 @@ if ($id_paquete > 0) {
   padding: 10px 20px; /* da espacio interno */
   font-weight: bold;
   text-align: center;
+  margin-top: 15px;
+  display: block;
 }
 
 .precio {
