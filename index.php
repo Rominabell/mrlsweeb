@@ -8,6 +8,7 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <a href="login.php"></a>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agencia de Viajes</title>
@@ -54,7 +55,13 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
   </style>
 </head>
 <body class="bg-light">
-
+  <?php
+    if ($_SESSION['clienteid']){
+      echo 'hola' . $_SESSION['nombre'];
+    } else {
+      echo '<a href="login.php">INICIO DE SESION </a>';
+    }
+    ?>
   <nav class="navbar my-navbar py-3 shadow-sm">
     <div class="container-fluid">
       <button 
