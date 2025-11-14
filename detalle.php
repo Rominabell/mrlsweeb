@@ -85,7 +85,7 @@ if ($id_paquete > 0) {
 }
 
 .btn-reservar:hover {
-  background-color: #218838;
+  background-color: #095519ff;
 }
 
 .btn-volver {
@@ -104,7 +104,7 @@ if ($id_paquete > 0) {
 }
 
 .precio {
-  color: #28a745;
+  color: #175c27ff;
   font-weight: bold;
   font-size: 1.3rem;
   text-align: center;
