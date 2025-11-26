@@ -1,5 +1,6 @@
 <?php
 require_once 'componentes/conexion.php';
+session_start();
 
 // Consulta de los paquetes activos
 $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'");
@@ -57,11 +58,12 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
 <body class="bg-light">
   <?php
     if ($_SESSION['clienteid']){
-      echo 'hola' . $_SESSION['nombre'];
+      echo 'Hola' . $_SESSION['nombre'];
+      echo '<a href="logout.php">INICIO DE SESION </a>';
     } else {
       echo '<a href="login.php">INICIO DE SESION </a>';
     }
-    ?>
+  ?>
   <nav class="navbar my-navbar py-3 shadow-sm">
     <div class="container-fluid">
       <button 

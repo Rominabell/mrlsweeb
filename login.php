@@ -2,38 +2,37 @@
     require_once 'componentes/conexion.php';
     
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Enviar'])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ingresar'])) {
         $errores = '';
         $email = $conexion->real_escape_string($_POST['nombre-usuario']);
         $contrasenia = $conexion->real_escape_string($_POST['contrasenia']);
 
         if(empty($email)||empty($contrasenia)){
-            $errores .= "div class='alert alert_danger'> Porfavor, completa todos los campos</div>";
+            $errores .= "<div class='alert alert_danger'> Porfavor, completa todos los campos</div>";
         } else{
             $frase =$conexion->prepare("SELECT * FROM cliente WHERE cliente.email =?");
             $frase-> bind_param('s', $email);
             $frase->execute();
 
             //obtiene un usuario de la BBDD (en forma de array)
-            $usuario = $frase->get_result()->fetch_assoc();
+            $cliente = $frase->get_result()->fetch_assoc();
 
-            if($usuario){
-                if(password_verify($contrasenia, $usuario['contrasenia'])){
+            if($cliente){
+                if(password_verify($contrasenia, $cliente['contrasenia'])){
                     session_start();
-                    $_SESSION["clienteid"] = $usuario['id_cliente'];
-                    $_SESSION['rol'] = $usuario['rol'];
-                    $_SESSION['nombre'] = $usuario['nombre'];
+                    $_SESSION["clienteid"] = $cliente['id_cliente'];
+                    $_SESSION['nombre'] = $cliente['nombre'];
 
                     $conexion->close();
 
                     header('Location: index.php');
                     exit;
                 } else {
-                    $errores .= "div class='alert alert_danger'> Correo o contraseña incorrectos</div>";
+                    $errores .= "<div class='alert alert_danger'> Correo o contraseña incorrectos</div>";
                 }
 
             } else {
-                $errores .= "div class='alert alert_danger'> Correo o contraseña incorrectos</div>";
+                $errores .= "<div class='alert alert_danger'> Correo o contraseña incorrectos</div>";
 
             }
         }
@@ -54,9 +53,11 @@
 
     <body>
    <form method= "POST" action="login.php">
+     <?php require_once 'componentes/comp-form-login.php'; ?>
+
 
    </form>
-        <?php require_once 'componentes/comp-form-login.php'; ?>
+       
    <div>
     <p>No tienes usuario? Registrate: <a href= "registro.php">Aqui</a></p>
    </div>

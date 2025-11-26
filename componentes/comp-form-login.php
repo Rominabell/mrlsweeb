@@ -2,6 +2,6 @@
     <input type="email" name="nombre-usuario" id="nombre-usuario">
 
     <label for="nombre-usuario">Contraseña</label>
-    <input type="password" name="contrasenia" id="contasenia">
+    <input type="password" name="contrasenia" id="contrasenia">
 
-    <input type="submit" value="Enviar" name="ingresar" id="ingresar">
+    <input type="submit" value="ingresar" name="ingresar" id="ingresar">
