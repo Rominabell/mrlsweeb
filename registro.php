@@ -56,13 +56,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ingresar'])){
 
 
     <body>
-   <form method= "POST" action="registro.php">
-     <?php require_once 'componentes/comp-form-login.php'; ?>
-   </form>
-       
-   <div>
-    <p>No tienes usuario? Registrate: <a href= "registro.php">Aqui</a></p>
-   </div>
+<form method="POST" action="registro.php">
+    <?php require_once 'componentes/comp-form-registro.php'; ?>
+</form>
+
+<div class="text-center mt-3">
+    <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a></p>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

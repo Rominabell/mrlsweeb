@@ -8,7 +8,7 @@
         $contrasenia = $conexion->real_escape_string($_POST['contrasenia']);
 
         if(empty($email)||empty($contrasenia)){
-            $errores .= "<div class='alert alert_danger'> Porfavor, completa todos los campos</div>";
+            $errores .= "<div class='alert alert-danger'> Porfavor, completa todos los campos</div>";
         } else{
             $frase =$conexion->prepare("SELECT * FROM cliente WHERE cliente.email =?");
             $frase-> bind_param('s', $email);
@@ -28,11 +28,11 @@
                     header('Location: index.php');
                     exit;
                 } else {
-                    $errores .= "<div class='alert alert_danger'> Correo o contraseña incorrectos</div>";
+                    $errores .= "<div class='alert alert-danger'> Correo o contraseña incorrectos</div>";
                 }
 
             } else {
-                $errores .= "<div class='alert alert_danger'> Correo o contraseña incorrectos</div>";
+                $errores .= "<div class='alert alert-danger'> Correo o contraseña incorrectos</div>";
 
             }
         }
@@ -52,16 +52,13 @@
 
 
     <body>
-   <form method= "POST" action="login.php">
-     <?php require_once 'componentes/comp-form-login.php'; ?>
+<form method="POST" action="login.php">
+    <?php require_once 'componentes/comp-form-login.php'; ?>
+</form>
 
-
-   </form>
-       
-   <div>
-    <p>No tienes usuario? Registrate: <a href= "registro.php">Aqui</a></p>
-   </div>
-
+<div class="text-center mt-3">
+    <p>¿No tienes usuario? <a href="registro.php">Regístrate aquí</a></p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   </body>
