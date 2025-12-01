@@ -57,7 +57,8 @@ $paquetes = $conexion->query("SELECT * FROM paquete WHERE estado = 'disponible'"
 </head>
 <body class="bg-light">
   <?php
-    if ($_SESSION['clienteid']){
+    if (isset($_SESSION['clienteid'])) {
+
       echo 'Hola' . $_SESSION['nombre'];
       echo '<a href="logout.php">INICIO DE SESION </a>';
     } else {

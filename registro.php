@@ -4,7 +4,7 @@ require_once 'componentes/conexion.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ingresar'])){
     
     $errores = '';
-    $email = $conexion->real_escape_string($_POST['nombre-cliente']);
+   $email = $conexion->real_escape_string($_POST['nombre-usuario']);
     $contrasenia = $conexion->real_escape_string($_POST['contrasenia']);                                                                       
 
     if(empty($email)||empty($contrasenia)){
