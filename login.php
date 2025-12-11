@@ -3,16 +3,16 @@ require_once 'componentes/conexion.php';
 
 $errores = '';
 
-<<<<<<< HEAD
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
-=======
+
         if(empty($email)||empty($contrasenia)){
             $errores .= "<div class='alert alert-danger'> Porfavor, completa todos los campos</div>";
         } else{
             $frase =$conexion->prepare("SELECT * FROM cliente WHERE cliente.email =?");
             $frase-> bind_param('s', $email);
             $frase->execute();
->>>>>>> 5ea3c106396edf4a4ab284f986e3c8069b225190
+
 
  
     $email = $conexion->real_escape_string($_POST['email']);
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
         $frase->bind_param("s", $email);
         $frase->execute();
 
-<<<<<<< HEAD
+
         $cliente = $frase->get_result()->fetch_assoc();
 
         if($cliente){
@@ -42,8 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
 
             } else {
                 $errores .= "<div class='alert alert-danger'>Correo o contraseña incorrectos</div>";
-=======
-                    header('Location: index.php');
+                   header('Location: index.php');
                     exit;
                 } else {
                     $errores .= "<div class='alert alert-danger'> Correo o contraseña incorrectos</div>";
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
             } else {
                 $errores .= "<div class='alert alert-danger'> Correo o contraseña incorrectos</div>";
 
->>>>>>> 5ea3c106396edf4a4ab284f986e3c8069b225190
+
             }
 
         } else {
@@ -72,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
 
 <body class='container py-5'>
 
-<<<<<<< HEAD
+
     <h2 class='mb-4'>Iniciar Sesión</h2>
 
     <?php if(!empty($errores)) echo $errores; ?>
@@ -83,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
             <label class='form-label'>Email</label>
             <input type='email' name='email' class='form-control'>
         </div>
-=======
+
     <body>
 <form method="POST" action="login.php">
     <?php require_once 'componentes/comp-form-login.php'; ?>
@@ -92,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ingresar'])) {
 <div class="text-center mt-3">
     <p>¿No tienes usuario? <a href="registro.php">Regístrate aquí</a></p>
 </div>
->>>>>>> 5ea3c106396edf4a4ab284f986e3c8069b225190
+
 
         <div class='mb-3'>
             <label class='form-label'>Contraseña</label>

@@ -58,9 +58,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])){
 
 <body class="container py-5">
 
-<<<<<<< HEAD
+
   <h2 class="mb-4">Crear cuenta</h2>
-=======
+
     <body>
 <form method="POST" action="registro.php">
     <?php require_once 'componentes/comp-form-registro.php'; ?>
@@ -69,7 +69,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])){
 <div class="text-center mt-3">
     <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a></p>
 </div>
->>>>>>> 5ea3c106396edf4a4ab284f986e3c8069b225190
+
 
   <?php if(!empty($errores)) echo $errores; ?>
 
